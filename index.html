@@ -69,13 +69,10 @@ section{padding:120px 48px}
 .product-model{font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
 .product-name{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;color:var(--cream);margin-bottom:6px}
 .product-desc{font-size:12px;color:var(--text3);line-height:1.6;margin-bottom:16px}
-.product-thumbs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:16px}
-.product-thumb{background:var(--bg4);border:1px solid var(--border);padding:0;cursor:pointer;aspect-ratio:1;overflow:hidden;transition:border-color 0.2s,transform 0.2s}
-.product-thumb img{width:100%;height:100%;object-fit:cover;display:block}
-.product-thumb:hover,.product-thumb.active{border-color:var(--gold3);transform:translateY(-1px)}
-.product-footer{display:flex;align-items:flex-end;justify-content:space-between;gap:16px}
-.product-meta{display:flex;flex-direction:column;gap:6px}
-.product-price{font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--gold2);line-height:1}
+.product-colors{display:flex;gap:6px;margin-bottom:16px}
+.color-dot{width:16px;height:16px;border-radius:50%;border:1px solid rgba(255,255,255,0.1);cursor:pointer;transition:transform 0.2s}
+.color-dot:hover,.color-dot.active{transform:scale(1.3);border-color:var(--gold)}
+.product-footer{display:flex;align-items:center;justify-content:space-between}
 .telegram-badge{font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--text3);display:flex;align-items:center;gap:4px}
 .add-to-order{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;padding:8px 16px;background:none;border:1px solid var(--border2);color:var(--text2);cursor:pointer;transition:all 0.2s}
 .add-to-order:hover{border-color:var(--gold3);color:var(--gold)}
@@ -161,6 +158,24 @@ section{padding:80px 20px}
 .about-section{grid-template-columns:1fr}
 .cart-sidebar{width:100%;right:-100%}
 }
+
+.admin-tab-btn{padding:12px 24px;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;background:none;border:none;color:var(--text3);cursor:pointer;transition:all 0.2s;border-bottom:2px solid transparent;margin-bottom:-1px;font-family:'Jost',sans-serif}
+.admin-tab-btn.active{color:var(--gold);border-bottom-color:var(--gold)}
+.admin-tab-btn:hover{color:var(--text2)}
+.form-select{width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:12px 16px;font-size:13px;font-family:'Jost',sans-serif;transition:border-color 0.2s;outline:none;cursor:pointer;-webkit-appearance:none}
+.form-select:focus{border-color:var(--gold3)}
+.admin-prod-row{background:var(--bg3);border:1px solid var(--border);padding:14px 16px;display:flex;align-items:center;gap:14px;transition:border-color 0.2s}
+.admin-prod-row:hover{border-color:var(--border2)}
+.admin-prod-thumb{width:48px;height:60px;object-fit:cover;flex-shrink:0;background:var(--bg4)}
+.admin-prod-thumb-placeholder{width:48px;height:60px;flex-shrink:0;background:var(--bg4);display:flex;align-items:center;justify-content:center}
+.admin-prod-info{flex:1;min-width:0}
+.admin-prod-name{font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--cream);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.admin-prod-meta{font-size:11px;color:var(--text3);margin-top:2px}
+.admin-prod-actions{display:flex;gap:6px;flex-shrink:0}
+.admin-btn-edit{font-size:10px;letter-spacing:0.1em;text-transform:uppercase;padding:5px 12px;background:none;border:1px solid var(--border2);color:var(--gold);cursor:pointer;transition:all 0.2s}
+.admin-btn-edit:hover{border-color:var(--gold);background:var(--gold3)}
+.admin-btn-del{font-size:10px;letter-spacing:0.1em;text-transform:uppercase;padding:5px 12px;background:none;border:1px solid var(--border);color:var(--text3);cursor:pointer;transition:all 0.2s}
+.admin-btn-del:hover{border-color:#c55;color:#c55}
 </style>
 </head>
 <body>
@@ -219,15 +234,13 @@ section{padding:80px 20px}
       <div class="section-label">Koleksiyon</div>
       <h2 class="section-title"><em>Seçkin</em> Modeller</h2>
       <div class="section-line"></div>
-      <div class="tg-status"><div class="tg-dot"></div><span id="tg-status-text">PDF katalog yüklendi</span></div>
+      <div class="tg-status"><div class="tg-dot"></div><span id="tg-status-text">Telegram kanalından senkronize ediliyor</span></div>
     </div>
     <div class="filter-tabs">
       <button class="filter-tab active" onclick="filterProducts('all')" data-filter="all">Tümü</button>
-      <button class="filter-tab" onclick="filterProducts('shoulder')" data-filter="shoulder">Omuz</button>
       <button class="filter-tab" onclick="filterProducts('tote')" data-filter="tote">Tote</button>
       <button class="filter-tab" onclick="filterProducts('clutch')" data-filter="clutch">Clutch</button>
-      <button class="filter-tab" onclick="filterProducts('backpack')" data-filter="backpack">Sırt</button>
-      <button class="filter-tab" onclick="filterProducts('travel')" data-filter="travel">Travel</button>
+      <button class="filter-tab" onclick="filterProducts('shoulder')" data-filter="shoulder">Shoulder</button>
     </div>
   </div>
   <div id="products-loading" style="text-align:center;padding:60px;color:var(--text3)"><div style="font-size:11px;letter-spacing:0.3em;text-transform:uppercase">Yükleniyor...</div></div>
@@ -262,22 +275,170 @@ section{padding:80px 20px}
 </div>
 
 <div id="section-admin" class="page-section" style="padding-top:68px">
-<section style="min-height:calc(100vh - 68px)">
-  <div class="section-label">Admin</div>
-  <h2 class="section-title">Panel</h2>
-  <div class="section-line"></div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;max-width:900px">
-    <div>
-      <div style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:20px">Telegram Ayarları</div>
-      <div class="form-group"><label class="form-label">Bot Token</label><input class="form-input" id="admin-bot-token" placeholder="123456:ABC-DEF..." type="password"></div>
-      <div class="form-group"><label class="form-label">Grup / Kanal ID</label><input class="form-input" id="admin-chat-id" placeholder="-1001234567890"></div>
-      <button class="btn-primary" onclick="saveTgConfig()">Kaydet &amp; Senkronize Et</button>
-      <div id="tg-save-msg" style="font-size:12px;color:var(--gold);margin-top:8px;display:none">Kaydedildi!</div>
+<section style="min-height:calc(100vh - 68px);padding:60px 48px">
+  <div style="display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:40px;max-width:1200px">
+    <button class="admin-tab-btn active" onclick="switchAdminTab('products')" id="atab-products">Ürün Yönetimi</button>
+    <button class="admin-tab-btn" onclick="switchAdminTab('categories')" id="atab-categories">Kategoriler</button>
+    <button class="admin-tab-btn" onclick="switchAdminTab('orders')" id="atab-orders">Siparişler</button>
+    <button class="admin-tab-btn" onclick="switchAdminTab('cats')" id="atab-cats">Kategoriler</button>
+  </div>
+
+  <div id="admin-tab-products" style="max-width:1200px">
+    <div style="display:grid;grid-template-columns:400px 1fr;gap:40px;align-items:start">
+      <div style="background:var(--bg2);border:1px solid var(--border2);padding:28px;position:sticky;top:88px">
+        <div style="font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);margin-bottom:20px" id="admin-form-title">Yeni Ürün Ekle</div>
+        <input type="hidden" id="ap-edit-id">
+
+        <div class="form-group">
+          <label class="form-label">Ürün Fotoğrafı</label>
+          <div id="photo-drop-zone" onclick="document.getElementById('photo-file-input').click()" style="border:1px dashed var(--border2);padding:20px;text-align:center;cursor:pointer;min-height:140px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;transition:border-color 0.2s" onmouseover="this.style.borderColor='var(--gold3)'" onmouseout="this.style.borderColor='var(--border2)'">
+            <div id="photo-preview-wrap" style="display:none;width:100%"><img id="photo-preview" style="max-height:160px;max-width:100%;object-fit:contain;display:block;margin:0 auto"></div>
+            <div id="photo-placeholder">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold3)" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+              <div style="font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--text3);margin-top:6px">Fotoğraf Yükle</div>
+            </div>
+            <input type="file" id="photo-file-input" accept="image/*" style="display:none" onchange="handlePhotoUpload(this)">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Renk Çeşitleri Görseli <span style="color:var(--text3)">(isteğe bağlı)</span></label>
+          <div id="color-drop-zone" onclick="document.getElementById('color-file-input').click()" style="border:1px dashed var(--border2);padding:14px;text-align:center;cursor:pointer;min-height:70px;display:flex;align-items:center;justify-content:center;gap:8px;transition:border-color 0.2s" onmouseover="this.style.borderColor='var(--gold3)'" onmouseout="this.style.borderColor='var(--border2)'">
+            <div id="color-preview-wrap" style="display:none;width:100%"><img id="color-preview" style="max-height:80px;max-width:100%;object-fit:contain;display:block;margin:0 auto"></div>
+            <div id="color-placeholder" style="display:flex;align-items:center;gap:8px">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold3)" stroke-width="1"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 010 18"/><path d="M3 12h18"/></svg>
+              <span style="font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text3)">Renk görseli</span>
+            </div>
+            <input type="file" id="color-file-input" accept="image/*" style="display:none" onchange="handleColorUpload(this)">
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div class="form-group" style="margin-bottom:0">
+            <label class="form-label">Ürün Adı *</label>
+            <input class="form-input" id="ap-name" placeholder="LV Vanity PM">
+          </div>
+          <div class="form-group" style="margin-bottom:0">
+            <label class="form-label">Ürün Kodu *</label>
+            <input class="form-input" id="ap-code" placeholder="1209">
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px">
+          <div class="form-group" style="margin-bottom:0">
+            <label class="form-label">Fiyat ($)</label>
+            <input class="form-input" id="ap-price" type="number" min="0" step="0.5" placeholder="26">
+          </div>
+          <div class="form-group" style="margin-bottom:0">
+            <label class="form-label">Kategori</label>
+            <select class="form-select" id="ap-category">
+              <option value="tote">Tote</option>
+              <option value="shoulder">Shoulder</option>
+              <option value="clutch">Clutch</option>
+              <option value="backpack">Backpack</option>
+              <option value="crossbody">Crossbody</option>
+              <option value="other">Diğer</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-top:10px">
+          <label class="form-label">Ölçüler <span style="color:var(--text3)">(en×boy×derinlik cm)</span></label>
+          <input class="form-input" id="ap-size" placeholder="30×12×6">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Açıklama</label>
+          <textarea class="form-input" id="ap-desc" rows="2" placeholder="Kısa ürün açıklaması..." style="resize:none"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Renkler <span style="color:var(--text3)">(virgülle ayırın)</span></label>
+          <input class="form-input" id="ap-colors" placeholder="Siyah, Kahverengi, Krem" oninput="renderColorTagsPreview()">
+          <div id="color-tags-preview" style="display:flex;flex-wrap:wrap;gap:5px;margin-top:8px"></div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Etiket <span style="color:var(--text3)">(isteğe bağlı)</span></label>
+          <input class="form-input" id="ap-tag" placeholder="Yeni · Bestseller · Sınırlı">
+        </div>
+
+        <div style="display:flex;gap:8px">
+          <button class="btn-primary" style="flex:1;padding:11px;font-size:11px" onclick="saveProduct()" id="save-btn">Ürünü Kaydet</button>
+          <button onclick="resetProductForm()" style="padding:11px 16px;background:none;border:1px solid var(--border);color:var(--text3);cursor:pointer;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;transition:all 0.2s" onmouseover="this.style.borderColor='var(--gold3)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text3)'">İptal</button>
+        </div>
+        <div id="prod-save-msg" style="font-size:11px;color:var(--gold);margin-top:10px;display:none;text-align:center;letter-spacing:0.1em"></div>
+      </div>
+
+      <div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+          <div style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold)" id="admin-product-count">Ürünler (0)</div>
+          <input class="form-input" id="admin-search" placeholder="Ara..." style="max-width:180px;padding:8px 12px;font-size:12px" oninput="renderAdminProductList()">
+        </div>
+        <div id="admin-product-list" style="display:flex;flex-direction:column;gap:6px;max-height:75vh;overflow-y:auto"></div>
+      </div>
     </div>
-    <div>
-      <div style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:20px">Tüm Siparişler</div>
-      <div id="admin-orders-list"></div>
+  </div>
+
+  <div id="admin-tab-cats" style="display:none;max-width:600px">
+    <div style="font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);margin-bottom:24px">Kategori Yönetimi</div>
+
+    <!-- Add category form -->
+    <div style="background:var(--bg2);border:1px solid var(--border2);padding:24px;margin-bottom:24px">
+      <div style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--text3);margin-bottom:16px">Yeni Kategori Ekle</div>
+      <div style="display:flex;gap:10px;align-items:flex-end">
+        <div style="flex:1">
+          <label class="form-label">Kategori Adı</label>
+          <input class="form-input" id="cat-name-input" placeholder="örn. Sırt Çantası" onkeydown="if(event.key==='Enter')addCategory()">
+        </div>
+        <div style="width:120px">
+          <label class="form-label">Değer (slug)</label>
+          <input class="form-input" id="cat-slug-input" placeholder="backpack" onkeydown="if(event.key==='Enter')addCategory()">
+        </div>
+        <button class="btn-primary" style="padding:12px 20px;white-space:nowrap;height:46px" onclick="addCategory()">Ekle</button>
+      </div>
+      <div style="font-size:11px;color:var(--text3);margin-top:8px">Slug: küçük harf, boşluksuz (örn. "shoulder-bag")</div>
     </div>
+
+    <!-- Category list -->
+    <div id="cat-list" style="display:flex;flex-direction:column;gap:6px"></div>
+    <div style="font-size:11px;color:var(--text3);margin-top:16px">Kategoriler sürükleyip bırakarak sıralanabilir. Ürünlerin filtreleme sekmelerini ve form seçeneklerini otomatik günceller.</div>
+  </div>
+
+  <div id="admin-tab-categories" style="display:none;max-width:700px">
+    <div style="display:grid;grid-template-columns:320px 1fr;gap:40px;align-items:start">
+      <div style="background:var(--bg2);border:1px solid var(--border2);padding:28px">
+        <div style="font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);margin-bottom:20px" id="cat-form-title">Yeni Kategori Ekle</div>
+        <input type="hidden" id="cat-edit-id">
+        <div class="form-group">
+          <label class="form-label">Kategori Adı *</label>
+          <input class="form-input" id="cat-name" placeholder="Örn: Clutch, Tote, Sırt Çantası">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Slug (URL kodu) *</label>
+          <input class="form-input" id="cat-slug" placeholder="Örn: clutch, tote, backpack" oninput="this.value=this.value.toLowerCase().replace(/[^a-z0-9-]/g,'-')">
+          <div style="font-size:10px;color:var(--text3);margin-top:4px">Sadece küçük harf, rakam ve tire kullanın</div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn-primary" style="flex:1;padding:11px;font-size:11px" onclick="saveCategory()">Kaydet</button>
+          <button onclick="resetCategoryForm()" style="padding:11px 16px;background:none;border:1px solid var(--border);color:var(--text3);cursor:pointer;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;transition:all 0.2s" onmouseover="this.style.borderColor='var(--gold3)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text3)'">İptal</button>
+        </div>
+        <div id="cat-save-msg" style="font-size:11px;color:var(--gold);margin-top:10px;display:none;text-align:center;letter-spacing:0.1em"></div>
+      </div>
+
+      <div>
+        <div style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:16px">Mevcut Kategoriler</div>
+        <div id="cat-list" style="display:flex;flex-direction:column;gap:6px"></div>
+        <div style="margin-top:20px;padding:14px;background:var(--bg3);border:1px solid var(--border);font-size:11px;color:var(--text3);line-height:1.7">
+          <span style="color:var(--gold)">Bilgi:</span> Kategoriler filtre sekmelerinde ve ürün formunda görünür. Varsayılan kategoriler (tote, shoulder, clutch, backpack, crossbody) her zaman mevcuttur.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="admin-tab-orders" style="display:none;max-width:800px">
+    <div style="font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);margin-bottom:24px">Tüm Siparişler</div>
+    <div id="admin-orders-list"></div>
   </div>
 </section>
 </div>
@@ -377,7 +538,14 @@ const i18n={tr:{'add-to-order':'Ekle','cart-empty':'Seçim yapılmadı','cart-ch
 function t(k){return i18n[lang][k]||k;}
 
 function setLang(l){lang=l;document.getElementById('lang-tr').classList.toggle('active',l==='tr');document.getElementById('lang-en').classList.toggle('active',l==='en');document.getElementById('tg-status-text').textContent=t('tg-sync');renderCart();}
-function showSection(n){document.querySelectorAll('.page-section').forEach(s=>s.classList.remove('active'));document.getElementById('section-'+n).classList.add('active');document.getElementById('userMenu').classList.remove('open');if(n==='orders')renderOrders();if(n==='admin')renderAdminOrders();window.scrollTo(0,0);}
+function showSection(n){
+  document.querySelectorAll('.page-section').forEach(s=>s.classList.remove('active'));
+  document.getElementById('section-'+n).classList.add('active');
+  document.getElementById('userMenu').classList.remove('open');
+  if(n==='orders') renderOrders();
+  if(n==='admin'){rebuildCategoryFilters();rebuildCategorySelect();renderAdminProductList();switchAdminTab('products');}
+  window.scrollTo(0,0);
+}
 function openModal(type){if(type==='login')switchTab('login');if(type==='register')switchTab('register');document.getElementById('authModal').classList.add('open');}
 function closeModal(id){document.getElementById(id).classList.remove('open');}
 function switchTab(tab){document.getElementById('form-login').style.display=tab==='login'?'block':'none';document.getElementById('form-register').style.display=tab==='register'?'block':'none';document.getElementById('tab-login').classList.toggle('active',tab==='login');document.getElementById('tab-register').classList.toggle('active',tab==='register');}
@@ -387,143 +555,580 @@ function loginSuccess(user){currentUser=user;closeModal('authModal');document.ge
 function logout(){currentUser=null;cart=[];document.getElementById('nav-guest').style.display='flex';document.getElementById('nav-user').style.display='none';document.getElementById('menu-admin').style.display='none';document.getElementById('userMenu').classList.remove('open');updateCartBadge();renderCart();showSection('home');}
 function toggleUserMenu(){document.getElementById('userMenu').classList.toggle('open');}
 function toggleCart(){document.getElementById('cartSidebar').classList.toggle('open');}
-function addToCart(product,selectedColor){if(!currentUser){openModal('login');return;}const existing=cart.find(i=>i.id===product.id&&i.color===selectedColor);if(existing){existing.qty++;}else{cart.push({...product,color:selectedColor,qty:1});}updateCartBadge();renderCart();showNotif(t('notif-added'),product.name);}
+function addToCart(product,selectedColor){
+  if(!currentUser){openModal('login');return;}
+  if(!selectedColor && product.colors && product.colors.length) selectedColor = product.colors[0];
+  const existing=cart.find(i=>i.id===product.id&&i.color===selectedColor);
+  if(existing){existing.qty++;}else{cart.push({...product,color:selectedColor,qty:1});}
+  updateCartBadge();renderCart();
+  if(document.getElementById('cartSidebar').classList.contains('open')===false) toggleCart();
+  showNotif(t('notif-added'),product.name);
+}
 function updateCartBadge(){const total=cart.reduce((s,i)=>s+i.qty,0);const badge=document.getElementById('cartBadge');badge.style.display=total>0?'flex':'none';badge.textContent=total;}
-function renderCart(){const el=document.getElementById('cartItems');const footer=document.getElementById('cartFooter');if(cart.length===0){el.innerHTML=`<div class="cart-empty">${t('cart-empty')}</div>`;footer.innerHTML='';return;}el.innerHTML=cart.map(item=>`<div class="cart-item"><div class="cart-item-img" style="background:${colors[item.color]||'#222'};opacity:0.8"></div><div class="cart-item-info"><div class="cart-item-name">${item.name}</div><div class="cart-item-detail">${item.color} · ${item.model}</div><div class="qty-control"><button class="qty-btn" onclick="changeQty(${item.id},'${item.color}',-1)">−</button><span class="qty-num">${item.qty}</span><button class="qty-btn" onclick="changeQty(${item.id},'${item.color}',1)">+</button></div></div><button style="background:none;border:none;color:var(--text3);cursor:pointer;font-size:18px" onclick="removeFromCart(${item.id},'${item.color}')">×</button></div>`).join('');footer.innerHTML=`<button class="btn-full btn-gold" onclick="openOrderModal()">${t('cart-checkout')}</button>`;}
+function renderCart(){
+  const el=document.getElementById('cartItems');
+  const footer=document.getElementById('cartFooter');
+  if(cart.length===0){el.innerHTML=`<div class="cart-empty">${t('cart-empty')}</div>`;footer.innerHTML='';return;}
+  el.innerHTML=cart.map(item=>`
+    <div class="cart-item">
+      ${item.photo ? `<img class="cart-item-img" src="${item.photo}" style="object-fit:cover" alt="${item.name}">` : `<div class="cart-item-img" style="background:${colorHex(item.color)};opacity:0.7"></div>`}
+      <div class="cart-item-info">
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-detail">${item.model}${item.color?' · '+item.color:''}${item.price?' · $'+item.price:''}</div>
+        <div class="qty-control">
+          <button class="qty-btn" onclick="changeQty(${item.id},'${item.color}',-1)">−</button>
+          <span class="qty-num">${item.qty}</span>
+          <button class="qty-btn" onclick="changeQty(${item.id},'${item.color}',1)">+</button>
+        </div>
+      </div>
+      <button style="background:none;border:none;color:var(--text3);cursor:pointer;font-size:18px" onclick="removeFromCart(${item.id},'${item.color}')">×</button>
+    </div>`).join('');
+  footer.innerHTML=`<button class="btn-full btn-gold" onclick="openOrderModal()">${t('cart-checkout')}</button>`;
+}
 function changeQty(id,color,delta){const item=cart.find(i=>i.id===id&&i.color===color);if(item){item.qty+=delta;if(item.qty<=0)removeFromCart(id,color);}updateCartBadge();renderCart();}
 function removeFromCart(id,color){cart=cart.filter(i=>!(i.id===id&&i.color===color));updateCartBadge();renderCart();}
 function openOrderModal(){if(!currentUser){toggleCart();openModal('login');return;}if(cart.length===0)return;document.getElementById('order-success').style.display='none';document.getElementById('order-form-content').style.display='block';document.getElementById('order-summary').innerHTML=cart.map(i=>`<div class="order-item"><div><div class="order-item-name">${i.name}</div><div class="order-item-detail">${i.color} · Adet: ${i.qty}</div></div></div>`).join('');document.getElementById('orderModal').classList.add('open');}
 function submitOrder(){const addr=document.getElementById('order-addr').value.trim();if(!addr){showNotif('⚠',t('order-fill'));return;}const order={id:Date.now(),userId:currentUser.id,userName:currentUser.name,userEmail:currentUser.email,items:[...cart],address:addr,note:document.getElementById('order-note').value.trim(),date:new Date().toLocaleDateString('tr-TR'),status:'pending'};const allOrders=JSON.parse(localStorage.getItem('maison_orders')||'[]');allOrders.push(order);localStorage.setItem('maison_orders',JSON.stringify(allOrders));cart=[];updateCartBadge();renderCart();document.getElementById('order-form-content').style.display='none';document.getElementById('order-success').style.display='block';showNotif(t('order-created'),order.userName);}
 function renderOrders(){const allOrders=JSON.parse(localStorage.getItem('maison_orders')||'[]');const myOrders=currentUser?allOrders.filter(o=>o.userId===currentUser.id):[];const el=document.getElementById('orders-list');if(myOrders.length===0){el.innerHTML=`<p style="color:var(--text3);font-size:13px">${t('no-orders')}</p>`;return;}el.innerHTML=myOrders.reverse().map(o=>`<div style="background:var(--bg3);border:1px solid var(--border);padding:24px;margin-bottom:16px;max-width:700px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px"><span style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--cream)">#${o.id}</span><span style="font-size:10px;letter-spacing:0.2em;text-transform:uppercase;padding:4px 12px;border:1px solid var(--gold3);color:var(--gold)">${o.status==='pending'?t('status-pending'):t('status-confirmed')}</span></div>${o.items.map(i=>`<div style="font-size:13px;color:var(--text2);padding:4px 0">${i.name} — ${i.color} × ${i.qty}</div>`).join('')}<div style="font-size:11px;color:var(--text3);margin-top:12px;border-top:1px solid var(--border);padding-top:12px">${o.date} · ${o.address}</div></div>`).join('');}
-function renderAdminOrders(){const allOrders=JSON.parse(localStorage.getItem('maison_orders')||'[]');const el=document.getElementById('admin-orders-list');if(allOrders.length===0){el.innerHTML=`<p style="color:var(--text3);font-size:12px">${t('no-orders')}</p>`;return;}el.innerHTML=allOrders.reverse().map(o=>`<div style="background:var(--bg3);border:1px solid var(--border);padding:16px;margin-bottom:12px"><div style="font-size:12px;color:var(--gold);margin-bottom:6px">${o.userName} · ${o.date}</div>${o.items.map(i=>`<div style="font-size:12px;color:var(--text2)">${i.name} — ${i.color} × ${i.qty}</div>`).join('')}<div style="font-size:11px;color:var(--text3);margin-top:8px">${o.address}</div><button onclick="confirmOrder(${o.id})" style="margin-top:8px;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;padding:5px 12px;background:none;border:1px solid var(--gold3);color:var(--gold);cursor:pointer">Onayla</button></div>`).join('');const cfg=JSON.parse(localStorage.getItem('maison_tg')||'{}');if(cfg.token)document.getElementById('admin-bot-token').value=cfg.token;if(cfg.chatId)document.getElementById('admin-chat-id').value=cfg.chatId;}
+function renderAdminOrders(){
+  const allOrders=JSON.parse(localStorage.getItem('maison_orders')||'[]');
+  const el=document.getElementById('admin-orders-list');
+  if(!el) return;
+  if(allOrders.length===0){el.innerHTML=`<p style="color:var(--text3);font-size:13px;padding:20px 0">${t('no-orders')}</p>`;return;}
+  el.innerHTML=allOrders.slice().reverse().map(o=>`
+    <div style="background:var(--bg3);border:1px solid var(--border);padding:20px;margin-bottom:12px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--cream)">${o.userName}</div>
+          <div style="font-size:11px;color:var(--text3);margin-top:2px">${o.userEmail} · ${o.date}</div>
+        </div>
+        <span style="font-size:10px;letter-spacing:0.15em;text-transform:uppercase;padding:4px 12px;border:1px solid var(--gold3);color:var(--gold)">${o.status==='confirmed'?t('status-confirmed'):t('status-pending')}</span>
+      </div>
+      ${o.items.map(i=>`<div style="font-size:12px;color:var(--text2);padding:3px 0;border-bottom:1px solid var(--border)">${i.name} <span style="color:var(--text3)">— ${i.color||''} × ${i.qty}</span></div>`).join('')}
+      <div style="font-size:11px;color:var(--text3);margin-top:10px">${o.address}${o.note?'<br><em>Not: '+o.note+'</em>':''}</div>
+      ${o.status!=='confirmed'?`<button onclick="confirmOrder(${o.id})" style="margin-top:10px;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;padding:6px 14px;background:none;border:1px solid var(--gold3);color:var(--gold);cursor:pointer">Onayla</button>`:''}
+    </div>`).join('');
+}
 function confirmOrder(id){const allOrders=JSON.parse(localStorage.getItem('maison_orders')||'[]');const o=allOrders.find(o=>o.id===id);if(o)o.status='confirmed';localStorage.setItem('maison_orders',JSON.stringify(allOrders));renderAdminOrders();showNotif('✓','Sipariş onaylandı');}
 function saveTgConfig(){const token=document.getElementById('admin-bot-token').value.trim();const chatId=document.getElementById('admin-chat-id').value.trim();tgConfig={token,chatId};localStorage.setItem('maison_tg',JSON.stringify(tgConfig));document.getElementById('tg-save-msg').style.display='block';setTimeout(()=>document.getElementById('tg-save-msg').style.display='none',2000);if(token&&chatId)loadTelegramProducts();}
 async function loadTelegramProducts(){const cfg=JSON.parse(localStorage.getItem('maison_tg')||'{}');if(!cfg.token||!cfg.chatId){showDemoProducts();return;}document.getElementById('products-loading').style.display='block';document.getElementById('productsGrid').style.display='none';try{const res=await fetch(`https://api.telegram.org/bot${cfg.token}/getUpdates?limit=100`);const data=await res.json();if(!data.ok){showDemoProducts();return;}const msgs=data.result.filter(u=>u.message&&u.message.photo&&String(u.message.chat.id)===String(cfg.chatId));if(msgs.length===0){showDemoProducts();return;}const tgProducts=[];for(let i=0;i<msgs.length;i++){const msg=msgs[i].message;const bigPhoto=msg.photo[msg.photo.length-1];const fileRes=await fetch(`https://api.telegram.org/bot${cfg.token}/getFile?file_id=${bigPhoto.file_id}`);const fileData=await fileRes.json();const photoUrl=`https://api.telegram.org/file/bot${cfg.token}/${fileData.result.file_path}`;const caption=msg.caption||'';const lines=caption.split('\n');tgProducts.push({id:i+1,name:lines[0]||`Model ${i+1}`,model:lines[1]||`TG-0${i+1}`,category:lines[2]||'tote',colors:(lines[3]||'Siyah').split(',').map(c=>c.trim()),desc:lines[4]||'',tag:lines[5]||null,tgPhoto:photoUrl});}products=tgProducts;renderProducts('all');document.getElementById('tg-config-banner').style.display='none';}catch(e){showDemoProducts();}}
 function showDemoProducts(){products=[...demoProducts];renderProducts('all');document.getElementById('tg-config-banner').style.display='block';}
 function filterProducts(cat){document.querySelectorAll('.filter-tab').forEach(t=>t.classList.remove('active'));document.querySelector(`[data-filter="${cat}"]`)?.classList.add('active');renderProducts(cat);}
-function renderProducts(cat){const grid=document.getElementById('productsGrid');document.getElementById('products-loading').style.display='none';grid.style.display='grid';const filtered=cat==='all'?products:products.filter(p=>p.category===cat);grid.innerHTML=filtered.map(p=>{const colorDots=p.colors.map((c,i)=>`<div class="color-dot${i===0?' active':''}" style="background:${colors[c]||'#888'}" title="${c}" onclick="selectColor(this,'${p.id}','${c}')"></div>`).join('');const imgContent=p.tgPhoto?`<img src="${p.tgPhoto}" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'">`:`<div class="product-img-placeholder"><svg width="40" height="40" viewBox="0 0 40 40" fill="none"><rect x="5" y="10" width="30" height="22" rx="1" stroke="#c9a84c" stroke-width="0.8"/><path d="M12 10V7a8 8 0 0116 0v3" stroke="#c9a84c" stroke-width="0.8"/><circle cx="20" cy="21" r="4" stroke="#c9a84c" stroke-width="0.8"/></svg><span>${p.model}</span></div>`;return`<div class="product-card">${p.tag?`<div class="product-tag">${p.tag}</div>`:''}<div class="product-img">${imgContent}</div><div class="product-info"><div class="product-model">${p.model}</div><div class="product-name">${p.name}</div><div class="product-desc">${p.desc}</div><div class="product-colors" id="colors-${p.id}">${colorDots}</div><div class="product-footer"><div class="telegram-badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"/></svg>${p.tgPhoto?'TG':'Demo'}</div><button class="add-to-order" onclick='addToCart(${JSON.stringify(p).replace(/'/g,"&#39;")},getSelectedColor(${p.id}))'>${t('add-to-order')}</button></div></div></div>`;}).join('');}
-function selectColor(el,pid){document.querySelectorAll(`#colors-${pid} .color-dot`).forEach(d=>d.classList.remove('active'));el.classList.add('active');}
-function getSelectedColor(pid){return document.querySelector(`#colors-${pid} .color-dot.active`)?.title||'';}
-function showNotif(title,text){document.getElementById('notif-title').textContent=title;document.getElementById('notif-text').textContent=text;const n=document.getElementById('notif');n.classList.add('show');setTimeout(()=>n.classList.remove('show'),3000);}
-document.addEventListener('click',e=>{const menu=document.getElementById('userMenu');if(!menu.contains(e.target))menu.classList.remove('open');});
-const savedTg=JSON.parse(localStorage.getItem('maison_tg')||'{}');
-if(savedTg.token&&savedTg.chatId){tgConfig=savedTg;loadTelegramProducts();}else showDemoProducts();
-</script>
-<script src="./maison-atelier-assets/catalog-products.js"></script>
-<script>
-function setLang(l){
-  lang=l;
-  document.getElementById('lang-tr').classList.toggle('active',l==='tr');
-  document.getElementById('lang-en').classList.toggle('active',l==='en');
-  document.getElementById('tg-status-text').textContent=l==='tr'?'PDF katalog yüklendi':'Loaded from PDF catalog';
-  renderCart();
+
+function colorHex(name){
+  const map={
+    'Siyah':'#1a1a1a','Black':'#1a1a1a','Kahverengi':'#6b4226','Camel':'#c19a6b',
+    'Krem':'#f5f0e8','Cream':'#f5f0e8','Ekru':'#f0ead6','Bordo':'#800020',
+    'Lacivert':'#1c2b4a','Navy':'#1c2b4a','Mavi':'#1a56a0','Yeşil':'#3d5a44',
+    'Green':'#3d5a44','Kum':'#d4b896','Gece':'#2c2c3e','Bej':'#d4c5a9',
+    'Pembe':'#e8a0b0','Pink':'#e8a0b0','Turuncu':'#e07030','Orange':'#e07030',
+    'Kırmızı':'#9b1c1c','Gri':'#888880','Beyaz':'#f8f8f0','Altın':'#c9a84c',
+    'Gold':'#c9a84c','Standart':'#888880',
+  };
+  return map[name] || '#888880';
 }
-function addToCart(product,selectedVariant,selectedImage){
-  if(!currentUser){openModal('login');return;}
-  const existing=cart.find(i=>i.id===product.id&&i.variant===selectedVariant);
-  if(existing){existing.qty++;}else{cart.push({...product,variant:selectedVariant,selectedImage,qty:1});}
-  updateCartBadge();
-  renderCart();
-  showNotif(t('notif-added'),product.name);
-}
-function addToCartById(id){
-  const product=products.find(p=>p.id===id);
-  if(!product)return;
-  addToCart(product,getSelectedVariant(id),getSelectedImage(id));
-}
-function renderCart(){
-  const el=document.getElementById('cartItems');
-  const footer=document.getElementById('cartFooter');
-  if(cart.length===0){
-    el.innerHTML=`<div class="cart-empty">${t('cart-empty')}</div>`;
-    footer.innerHTML='';
-    return;
-  }
-  el.innerHTML=cart.map(item=>`<div class="cart-item"><div class="cart-item-img">${item.selectedImage?`<img src="${item.selectedImage}" alt="${item.name}" style="width:100%;height:100%;object-fit:cover;display:block">`:''}</div><div class="cart-item-info"><div class="cart-item-name">${item.name}</div><div class="cart-item-detail">${item.variant} · ${item.model}</div><div class="qty-control"><button class="qty-btn" onclick="changeQty(${item.id},'${item.variant}',-1)">−</button><span class="qty-num">${item.qty}</span><button class="qty-btn" onclick="changeQty(${item.id},'${item.variant}',1)">+</button></div></div><button style="background:none;border:none;color:var(--text3);cursor:pointer;font-size:18px" onclick="removeFromCart(${item.id},'${item.variant}')">×</button></div>`).join('');
-  footer.innerHTML=`<button class="btn-full btn-gold" onclick="openOrderModal()">${t('cart-checkout')}</button>`;
-}
-function changeQty(id,variant,delta){
-  const item=cart.find(i=>i.id===id&&i.variant===variant);
-  if(item){
-    item.qty+=delta;
-    if(item.qty<=0)removeFromCart(id,variant);
-  }
-  updateCartBadge();
-  renderCart();
-}
-function removeFromCart(id,variant){
-  cart=cart.filter(i=>!(i.id===id&&i.variant===variant));
-  updateCartBadge();
-  renderCart();
-}
-function openOrderModal(){
-  if(!currentUser){toggleCart();openModal('login');return;}
-  if(cart.length===0)return;
-  document.getElementById('order-success').style.display='none';
-  document.getElementById('order-form-content').style.display='block';
-  document.getElementById('order-summary').innerHTML=cart.map(i=>`<div class="order-item"><div><div class="order-item-name">${i.name}</div><div class="order-item-detail">${i.variant} · Adet: ${i.qty}</div></div></div>`).join('');
-  document.getElementById('orderModal').classList.add('open');
-}
-function renderOrders(){
-  const allOrders=JSON.parse(localStorage.getItem('maison_orders')||'[]');
-  const myOrders=currentUser?allOrders.filter(o=>o.userId===currentUser.id):[];
-  const el=document.getElementById('orders-list');
-  if(myOrders.length===0){
-    el.innerHTML=`<p style="color:var(--text3);font-size:13px">${t('no-orders')}</p>`;
-    return;
-  }
-  el.innerHTML=myOrders.reverse().map(o=>`<div style="background:var(--bg3);border:1px solid var(--border);padding:24px;margin-bottom:16px;max-width:700px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px"><span style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--cream)">#${o.id}</span><span style="font-size:10px;letter-spacing:0.2em;text-transform:uppercase;padding:4px 12px;border:1px solid var(--gold3);color:var(--gold)">${o.status==='pending'?t('status-pending'):t('status-confirmed')}</span></div>${o.items.map(i=>`<div style="font-size:13px;color:var(--text2);padding:4px 0">${i.name} — ${i.variant} × ${i.qty}</div>`).join('')}<div style="font-size:11px;color:var(--text3);margin-top:12px;border-top:1px solid var(--border);padding-top:12px">${o.date} · ${o.address}</div></div>`).join('');
-}
-function renderAdminOrders(){
-  const allOrders=JSON.parse(localStorage.getItem('maison_orders')||'[]');
-  const el=document.getElementById('admin-orders-list');
-  if(allOrders.length===0){
-    el.innerHTML=`<p style="color:var(--text3);font-size:12px">${t('no-orders')}</p>`;
-    return;
-  }
-  el.innerHTML=allOrders.reverse().map(o=>`<div style="background:var(--bg3);border:1px solid var(--border);padding:16px;margin-bottom:12px"><div style="font-size:12px;color:var(--gold);margin-bottom:6px">${o.userName} · ${o.date}</div>${o.items.map(i=>`<div style="font-size:12px;color:var(--text2)">${i.name} — ${i.variant} × ${i.qty}</div>`).join('')}<div style="font-size:11px;color:var(--text3);margin-top:8px">${o.address}</div><button onclick="confirmOrder(${o.id})" style="margin-top:8px;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;padding:5px 12px;background:none;border:1px solid var(--gold3);color:var(--gold);cursor:pointer">Onayla</button></div>`).join('');
-}
-function saveTgConfig(){
-  document.getElementById('tg-save-msg').style.display='block';
-  setTimeout(()=>document.getElementById('tg-save-msg').style.display='none',2000);
-  loadCatalogProducts();
-}
-function filterProducts(cat){
-  document.querySelectorAll('.filter-tab').forEach(t=>t.classList.remove('active'));
-  document.querySelector(`[data-filter="${cat}"]`)?.classList.add('active');
-  renderProducts(cat);
-}
+
 function renderProducts(cat){
   const grid=document.getElementById('productsGrid');
   document.getElementById('products-loading').style.display='none';
   grid.style.display='grid';
   const filtered=cat==='all'?products:products.filter(p=>p.category===cat);
+  if(filtered.length===0){grid.innerHTML=`<div style="color:var(--text3);font-size:13px;padding:40px;grid-column:1/-1">Bu kategoride ürün bulunamadı.</div>`;return;}
   grid.innerHTML=filtered.map(p=>{
-    const thumbs=(p.images||[]).map((src,i)=>`<button class="product-thumb${i===0?' active':''}" type="button" data-index="${i}" data-variant="${(p.variants&&p.variants[i])||`Renk ${i}`}" onclick="selectProductImage(${p.id},${i})"><img src="${src}" alt="${p.name} ${i+1}"></button>`).join('');
-    const imgContent=p.tgPhoto?`<img id="product-main-${p.id}" src="${p.tgPhoto}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'">`:`<div class="product-img-placeholder"><svg width="40" height="40" viewBox="0 0 40 40" fill="none"><rect x="5" y="10" width="30" height="22" rx="1" stroke="#c9a84c" stroke-width="0.8"/><path d="M12 10V7a8 8 0 0116 0v3" stroke="#c9a84c" stroke-width="0.8"/><circle cx="20" cy="21" r="4" stroke="#c9a84c" stroke-width="0.8"/></svg><span>${p.model}</span></div>`;
-    return `<div class="product-card">${p.tag?`<div class="product-tag">${p.tag}</div>`:''}<div class="product-img">${imgContent}</div><div class="product-info"><div class="product-model">${p.model}</div><div class="product-name">${p.name}</div><div class="product-desc">${p.desc}</div><div class="product-thumbs" id="colors-${p.id}">${thumbs}</div><div class="product-footer"><div class="product-meta"><div class="telegram-badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"/></svg>PDF katalog</div><div class="product-price">${p.price||''}</div></div><button class="add-to-order" onclick="addToCartById(${p.id})">${t('add-to-order')}</button></div></div></div>`;
-  }).join('');
+    const mainPhoto = p.photo || p.tgPhoto;
+    const colorDots = (p.colors||[]).map((c,i)=>`<div class="color-dot${i===0?' active':''}" title="${c}" onclick="selectColor(this,'${p.id}','${c}')" style="width:16px;height:16px;border-radius:50%;border:1px solid rgba(255,255,255,0.15);cursor:pointer;transition:transform 0.2s;background:${colorHex(c)}"></div>`).join('');
+    const imgContent = mainPhoto
+      ? `<img src="${mainPhoto}" style="width:100%;height:100%;object-fit:cover" alt="${p.name}" loading="lazy">`
+      : `<div class="product-img-placeholder"><svg width="40" height="40" viewBox="0 0 40 40" fill="none"><rect x="5" y="10" width="30" height="22" rx="1" stroke="#c9a84c" stroke-width="0.8"/><path d="M12 10V7a8 8 0 0116 0v3" stroke="#c9a84c" stroke-width="0.8"/><circle cx="20" cy="21" r="4" stroke="#c9a84c" stroke-width="0.8"/></svg><span>${p.model}</span></div>`;
+    const colorImgSection = p.colorPhoto ? `<div style="border-top:1px solid var(--border);padding:12px 24px"><img src="${p.colorPhoto}" style="width:100%;border-radius:2px" alt="Renkler" loading="lazy"></div>` : '';
+    const priceSection = p.price ? `<div style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--gold2);margin-bottom:8px">${p.price} $</div>` : '';
+    const sizeSection = p.size ? `<div style="font-size:11px;color:var(--text3);margin-bottom:8px;letter-spacing:0.1em">${p.size} cm</div>` : '';
+    const safeP = JSON.stringify({id:p.id,name:p.name,model:p.model,colors:p.colors,photo:mainPhoto,price:p.price,category:p.category,desc:p.desc,size:p.size}).replace(/'/g,"&#39;").replace(/"/g,'&quot;');
+    return `<div class="product-card">
+      ${p.tag?`<div class="product-tag">${p.tag}</div>`:''}
+      <div class="product-img">${imgContent}</div>
+      ${colorImgSection}
+      <div class="product-info">
+        <div class="product-model">${p.model}</div>
+        <div class="product-name">${p.name}</div>
+        ${priceSection}
+        ${sizeSection}
+        <div class="product-desc">${p.desc||''}</div>
+        <div class="product-colors" id="colors-${p.id}" style="display:flex;gap:6px;margin:12px 0 16px">${colorDots}</div>
+        <div class="product-footer">
+          <div style="font-size:11px;color:var(--text3)">${(p.colors||[]).length} renk</div>
+          <button class="add-to-order" onclick='addToCart(JSON.parse(decodeURIComponent("${encodeURIComponent(JSON.stringify({id:p.id,name:p.name,model:p.model,colors:p.colors,photo:mainPhoto,price:p.price,category:p.category,desc:p.desc,size:p.size}))}").replace(/&quot;/g,"\\"")),getSelectedColor(${p.id}))'>${t('add-to-order')}</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');}
+function selectColor(el,pid){document.querySelectorAll(`#colors-${pid} .color-dot`).forEach(d=>d.classList.remove('active'));el.classList.add('active');}
+function getSelectedColor(pid){return document.querySelector(`#colors-${pid} .color-dot.active`)?.title||'';}
+function showNotif(title,text){document.getElementById('notif-title').textContent=title;document.getElementById('notif-text').textContent=text;const n=document.getElementById('notif');n.classList.add('show');setTimeout(()=>n.classList.remove('show'),3000);}
+document.addEventListener('click',e=>{const menu=document.getElementById('userMenu');if(!menu.contains(e.target))menu.classList.remove('open');});
+
+// ========== PRODUCT MANAGEMENT ==========
+let editingProductId = null;
+let pendingPhotoData = null;
+let pendingColorData = null;
+
+function getStoredProducts(){
+  return JSON.parse(localStorage.getItem('nrn_products')||'[]');
 }
-function selectProductImage(pid,index){
-  const product=products.find(p=>p.id===pid);
-  if(!product||!product.images||!product.images[index])return;
-  const main=document.getElementById(`product-main-${pid}`);
-  if(main)main.src=product.images[index];
-  document.querySelectorAll(`#colors-${pid} .product-thumb`).forEach(btn=>btn.classList.toggle('active',Number(btn.dataset.index)===index));
+function saveStoredProducts(prods){
+  localStorage.setItem('nrn_products', JSON.stringify(prods));
 }
-function getSelectedVariant(pid){
-  return document.querySelector(`#colors-${pid} .product-thumb.active`)?.dataset.variant||'Kapak';
+
+function handlePhotoUpload(input){
+  if(!input.files||!input.files[0]) return;
+  const file = input.files[0];
+  const reader = new FileReader();
+  reader.onload = function(e){
+    pendingPhotoData = e.target.result;
+    document.getElementById('photo-preview').src = pendingPhotoData;
+    document.getElementById('photo-preview-wrap').style.display = 'block';
+    document.getElementById('photo-placeholder').style.display = 'none';
+  };
+  reader.readAsDataURL(file);
 }
-function getSelectedImage(pid){
-  return document.querySelector(`#colors-${pid} .product-thumb.active img`)?.src||products.find(p=>p.id===pid)?.tgPhoto||'';
+
+function handleColorUpload(input){
+  if(!input.files||!input.files[0]) return;
+  const file = input.files[0];
+  const reader = new FileReader();
+  reader.onload = function(e){
+    pendingColorData = e.target.result;
+    document.getElementById('color-preview').src = pendingColorData;
+    document.getElementById('color-preview-wrap').style.display = 'block';
+    document.getElementById('color-placeholder').style.display = 'none';
+  };
+  reader.readAsDataURL(file);
 }
-function loadCatalogProducts(){
-  products=[...(window.catalogProducts||[])];
-  renderProducts('all');
-  document.getElementById('tg-config-banner').style.display='none';
-  document.getElementById('tg-status-text').textContent=lang==='tr'?'PDF katalog yüklendi':'Loaded from PDF catalog';
+
+function renderColorTagsPreview(){
+  const val = document.getElementById('ap-colors').value;
+  const tags = val.split(',').map(c=>c.trim()).filter(Boolean);
+  document.getElementById('color-tags-preview').innerHTML = tags.map(c=>`<span style="font-size:10px;letter-spacing:0.1em;padding:3px 10px;border:1px solid var(--border2);color:var(--text2)">${c}</span>`).join('');
 }
-loadCatalogProducts();
+
+function saveProduct(){
+  const name = document.getElementById('ap-name').value.trim();
+  const code = document.getElementById('ap-code').value.trim();
+  if(!name||!code){showProdMsg('Ürün adı ve kodu zorunludur.');return;}
+  const prods = getStoredProducts();
+  const colorStr = document.getElementById('ap-colors').value;
+  const colorsArr = colorStr.split(',').map(c=>c.trim()).filter(Boolean);
+
+  if(editingProductId){
+    const idx = prods.findIndex(p=>p.id===editingProductId);
+    if(idx>-1){
+      prods[idx] = {
+        ...prods[idx],
+        name, model: code,
+        price: document.getElementById('ap-price').value || '',
+        category: document.getElementById('ap-category').value,
+        size: document.getElementById('ap-size').value.trim(),
+        desc: document.getElementById('ap-desc').value.trim(),
+        colors: colorsArr,
+        tag: document.getElementById('ap-tag').value.trim() || null,
+        photo: pendingPhotoData || prods[idx].photo,
+        colorPhoto: pendingColorData || prods[idx].colorPhoto,
+      };
+      showProdMsg('Ürün güncellendi ✓');
+    }
+  } else {
+    const newProd = {
+      id: Date.now(),
+      name, model: code,
+      price: document.getElementById('ap-price').value || '',
+      category: document.getElementById('ap-category').value,
+      size: document.getElementById('ap-size').value.trim(),
+      desc: document.getElementById('ap-desc').value.trim(),
+      colors: colorsArr.length ? colorsArr : ['Standart'],
+      tag: document.getElementById('ap-tag').value.trim() || null,
+      photo: pendingPhotoData || null,
+      colorPhoto: pendingColorData || null,
+    };
+    prods.unshift(newProd);
+    showProdMsg('Ürün eklendi ✓');
+  }
+  saveStoredProducts(prods);
+  loadProductsFromStorage();
+  renderAdminProductList();
+  resetProductForm();
+}
+
+function showProdMsg(msg){
+  const el = document.getElementById('prod-save-msg');
+  el.textContent = msg; el.style.display='block';
+  setTimeout(()=>el.style.display='none', 2500);
+}
+
+function resetProductForm(){
+  editingProductId = null;
+  pendingPhotoData = null;
+  pendingColorData = null;
+  ['ap-name','ap-code','ap-price','ap-size','ap-desc','ap-colors','ap-tag'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('ap-category').value='tote';
+  document.getElementById('photo-preview-wrap').style.display='none';
+  document.getElementById('photo-placeholder').style.display='flex';
+  document.getElementById('color-preview-wrap').style.display='none';
+  document.getElementById('color-placeholder').style.display='flex';
+  document.getElementById('color-tags-preview').innerHTML='';
+  document.getElementById('admin-form-title').textContent='Yeni Ürün Ekle';
+  document.getElementById('save-btn').textContent='Ürünü Kaydet';
+  document.getElementById('photo-file-input').value='';
+  document.getElementById('color-file-input').value='';
+}
+
+function editProduct(id){
+  const prods = getStoredProducts();
+  const p = prods.find(x=>x.id===id);
+  if(!p) return;
+  switchAdminTab('products');
+  editingProductId = id;
+  document.getElementById('ap-name').value = p.name;
+  document.getElementById('ap-code').value = p.model;
+  document.getElementById('ap-price').value = p.price || '';
+  document.getElementById('ap-category').value = p.category || 'tote';
+  document.getElementById('ap-size').value = p.size || '';
+  document.getElementById('ap-desc').value = p.desc || '';
+  document.getElementById('ap-colors').value = (p.colors||[]).join(', ');
+  document.getElementById('ap-tag').value = p.tag || '';
+  renderColorTagsPreview();
+  if(p.photo){
+    document.getElementById('photo-preview').src = p.photo;
+    document.getElementById('photo-preview-wrap').style.display='block';
+    document.getElementById('photo-placeholder').style.display='none';
+    pendingPhotoData = p.photo;
+  }
+  if(p.colorPhoto){
+    document.getElementById('color-preview').src = p.colorPhoto;
+    document.getElementById('color-preview-wrap').style.display='block';
+    document.getElementById('color-placeholder').style.display='none';
+    pendingColorData = p.colorPhoto;
+  }
+  document.getElementById('admin-form-title').textContent='Ürünü Düzenle';
+  document.getElementById('save-btn').textContent='Güncelle';
+  document.getElementById('section-admin').scrollIntoView({behavior:'smooth'});
+}
+
+function deleteProduct(id){
+  if(!confirm('Bu ürünü silmek istediğinize emin misiniz?')) return;
+  let prods = getStoredProducts();
+  prods = prods.filter(p=>p.id!==id);
+  saveStoredProducts(prods);
+  loadProductsFromStorage();
+  renderAdminProductList();
+  if(editingProductId===id) resetProductForm();
+  showNotif('Silindi','Ürün kaldırıldı.');
+}
+
+function renderAdminProductList(){
+  const prods = getStoredProducts();
+  const q = (document.getElementById('admin-search')?.value||'').toLowerCase();
+  const filtered = q ? prods.filter(p=>(p.name+p.model).toLowerCase().includes(q)) : prods;
+  const el = document.getElementById('admin-product-list');
+  const cnt = document.getElementById('admin-product-count');
+  if(cnt) cnt.textContent = `Ürünler (${prods.length})`;
+  if(filtered.length===0){
+    el.innerHTML=`<p style="color:var(--text3);font-size:12px;padding:20px 0">${prods.length===0?'Henüz ürün eklenmedi.':'Sonuç bulunamadı.'}</p>`;
+    return;
+  }
+  el.innerHTML = filtered.map(p=>`
+    <div class="admin-prod-row">
+      ${p.photo ? `<img class="admin-prod-thumb" src="${p.photo}" alt="${p.name}">` : `<div class="admin-prod-thumb-placeholder"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--border2)" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>`}
+      <div class="admin-prod-info">
+        <div class="admin-prod-name">${p.name}</div>
+        <div class="admin-prod-meta">Kod: ${p.model}${p.price?' · $'+p.price:''}${p.size?' · '+p.size:''}${p.colors&&p.colors.length?' · '+p.colors.slice(0,3).join(', ')+(p.colors.length>3?'…':''):''}</div>
+      </div>
+      <div class="admin-prod-actions">
+        <button class="admin-btn-edit" onclick="editProduct(${p.id})">Düzenle</button>
+        <button class="admin-btn-del" onclick="deleteProduct(${p.id})">Sil</button>
+      </div>
+    </div>`).join('');
+}
+
+function switchAdminTab(tab){
+  ['products','categories','orders'].forEach(t=>{
+    const panel = document.getElementById('admin-tab-'+t);
+    const btn = document.getElementById('atab-'+t);
+    if(panel) panel.style.display = t===tab?'block':'none';
+    if(btn) btn.classList.toggle('active', t===tab);
+  });
+  if(tab==='orders') renderAdminOrders();
+  if(tab==='categories'){ renderCategoryList(); }
+}
+
+function loadProductsFromStorage(){
+  const stored = getStoredProducts();
+  if(stored.length > 0){
+    products = stored.map(p=>({
+      ...p,
+      tgPhoto: p.photo || null,
+      colorImg: p.colorPhoto || null,
+    }));
+  } else {
+    products = [...demoProducts];
+  }
+  renderProducts(document.querySelector('.filter-tab.active')?.dataset.filter||'all');
+  const banner = document.getElementById('tg-config-banner');
+  if(banner) banner.style.display = stored.length===0 ? 'block' : 'none';
+}
+
+// Override renderProducts to support price + size + colorImg
+const _origRenderProducts = null;
+
+
+// ========== CATEGORY MANAGEMENT ==========
+const DEFAULT_CATS = [
+  {name:'Tote', slug:'tote'},
+  {name:'Shoulder', slug:'shoulder'},
+  {name:'Clutch', slug:'clutch'},
+  {name:'Backpack', slug:'backpack'},
+  {name:'Crossbody', slug:'crossbody'},
+  {name:'Diğer', slug:'other'},
+];
+
+function getCategories(){
+  const stored = localStorage.getItem('nrn_categories');
+  return stored ? JSON.parse(stored) : [...DEFAULT_CATS];
+}
+function saveCategories(cats){
+  localStorage.setItem('nrn_categories', JSON.stringify(cats));
+  applyCategoriesToUI();
+}
+
+function applyCategoriesToUI(){
+  const cats = getCategories();
+  // Update filter tabs
+  const filterDiv = document.querySelector('.filter-tabs');
+  if(filterDiv){
+    filterDiv.innerHTML = `<button class="filter-tab active" onclick="filterProducts('all')" data-filter="all">${lang==='tr'?'Tümü':'All'}</button>`
+      + cats.map(cat=>`<button class="filter-tab" onclick="filterProducts('${cat.slug}')" data-filter="${cat.slug}">${cat.name}</button>`).join('');
+  }
+  // Update product form select
+  const sel = document.getElementById('ap-category');
+  if(sel){
+    const cur = sel.value;
+    sel.innerHTML = cats.map(cat=>`<option value="${cat.slug}"${cat.slug===cur?' selected':''}>${cat.name}</option>`).join('');
+  }
+}
+
+function renderCatList(){
+  const cats = getCategories();
+  const el = document.getElementById('cat-list');
+  if(!el) return;
+  if(cats.length===0){el.innerHTML='<p style="color:var(--text3);font-size:12px">Kategori yok.</p>';return;}
+  el.innerHTML = cats.map((cat,i)=>`
+    <div class="admin-prod-row" style="cursor:default" id="cat-row-${i}">
+      <div style="display:flex;flex-direction:column;gap:2px;flex:1">
+        <div style="font-size:14px;color:var(--cream)">${cat.name}</div>
+        <div style="font-size:11px;color:var(--text3);letter-spacing:0.1em">${cat.slug}</div>
+      </div>
+      <div style="display:flex;gap:4px;align-items:center">
+        <button onclick="moveCat(${i},-1)" title="Yukarı" style="background:none;border:1px solid var(--border);color:var(--text3);cursor:pointer;padding:4px 9px;font-size:13px;transition:all 0.2s" ${i===0?'disabled style="opacity:0.3;cursor:not-allowed"':''} onmouseover="this.style.borderColor='var(--gold3)'" onmouseout="this.style.borderColor='var(--border)'">↑</button>
+        <button onclick="moveCat(${i},1)" title="Aşağı" style="background:none;border:1px solid var(--border);color:var(--text3);cursor:pointer;padding:4px 9px;font-size:13px;transition:all 0.2s" ${i===cats.length-1?'disabled style="opacity:0.3;cursor:not-allowed"':''} onmouseover="this.style.borderColor='var(--gold3)'" onmouseout="this.style.borderColor='var(--border)'">↓</button>
+        <button class="admin-btn-edit" onclick="startEditCat(${i})">Düzenle</button>
+        <button class="admin-btn-del" onclick="deleteCat(${i})">Sil</button>
+      </div>
+    </div>`).join('');
+}
+
+function addCategory(){
+  const name = document.getElementById('cat-name-input').value.trim();
+  const slug = document.getElementById('cat-slug-input').value.trim().toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'');
+  if(!name || !slug){ showNotif('⚠','Ad ve slug zorunludur.'); return; }
+  const cats = getCategories();
+  if(cats.find(c=>c.slug===slug)){ showNotif('⚠','Bu slug zaten mevcut.'); return; }
+  cats.push({name, slug});
+  saveCategories(cats);
+  document.getElementById('cat-name-input').value = '';
+  document.getElementById('cat-slug-input').value = '';
+  renderCatList();
+  showNotif('✓', `"${name}" eklendi`);
+}
+
+function deleteCat(i){
+  const cats = getCategories();
+  const cat = cats[i];
+  if(!confirm(`"${cat.name}" kategorisini silmek istediğinize emin misiniz?`)) return;
+  cats.splice(i,1);
+  saveCategories(cats);
+  renderCatList();
+  showNotif('Silindi', cat.name + ' kaldırıldı');
+}
+
+function moveCat(i, dir){
+  const cats = getCategories();
+  const j = i + dir;
+  if(j<0 || j>=cats.length) return;
+  [cats[i], cats[j]] = [cats[j], cats[i]];
+  saveCategories(cats);
+  renderCatList();
+}
+
+function startEditCat(i){
+  const cats = getCategories();
+  const cat = cats[i];
+  const newName = prompt('Kategori adını düzenle:', cat.name);
+  if(newName === null) return;
+  if(!newName.trim()){ showNotif('⚠','Ad boş olamaz.'); return; }
+  cats[i].name = newName.trim();
+  saveCategories(cats);
+  renderCatList();
+  showNotif('✓','Kategori güncellendi');
+}
+
+// Auto-generate slug from name input
+document.addEventListener('DOMContentLoaded', ()=>{
+  const nameInp = document.getElementById('cat-name-input');
+  const slugInp = document.getElementById('cat-slug-input');
+  if(nameInp && slugInp){
+    nameInp.addEventListener('input', ()=>{
+      const tr = {'ç':'c','ş':'s','ğ':'g','ü':'u','ö':'o','ı':'i','â':'a','î':'i','û':'u'};
+      slugInp.value = nameInp.value.toLowerCase()
+        .replace(/[çşğüöıâîû]/g, m=>tr[m]||m)
+        .replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'');
+    });
+  }
+});
+
+
+
+// ========== CATEGORY MANAGEMENT ==========
+const DEFAULT_CATEGORIES = [
+  {id:'tote', name:'Tote', isDefault:true},
+  {id:'shoulder', name:'Shoulder', isDefault:true},
+  {id:'clutch', name:'Clutch', isDefault:true},
+  {id:'backpack', name:'Backpack', isDefault:true},
+  {id:'crossbody', name:'Crossbody', isDefault:true},
+  {id:'other', name:'Diğer', isDefault:true},
+];
+
+function getStoredCategories(){
+  const custom = JSON.parse(localStorage.getItem('nrn_categories')||'[]');
+  // Merge defaults + custom, custom can override name of defaults
+  const all = [...DEFAULT_CATEGORIES];
+  custom.forEach(c => {
+    const exists = all.find(d => d.id === c.id);
+    if(exists) exists.name = c.name;
+    else all.push(c);
+  });
+  return all;
+}
+
+function saveCustomCategories(cats){
+  localStorage.setItem('nrn_categories', JSON.stringify(cats));
+}
+
+function getCustomCategories(){
+  return JSON.parse(localStorage.getItem('nrn_categories')||'[]');
+}
+
+function saveCategory(){
+  const name = document.getElementById('cat-name').value.trim();
+  const slug = document.getElementById('cat-slug').value.trim();
+  if(!name || !slug){ showCatMsg('Ad ve slug zorunludur.'); return; }
+  const editId = document.getElementById('cat-edit-id').value;
+  let custom = getCustomCategories();
+  if(editId){
+    const idx = custom.findIndex(c=>c.id===editId);
+    if(idx>-1){ custom[idx].name=name; custom[idx].id=slug; }
+    else { custom.push({id:slug,name,isDefault:false}); }
+    showCatMsg('Güncellendi ✓');
+  } else {
+    if(custom.find(c=>c.id===slug)||DEFAULT_CATEGORIES.find(c=>c.id===slug)){
+      showCatMsg('Bu slug zaten mevcut.'); return;
+    }
+    custom.push({id:slug, name, isDefault:false});
+    showCatMsg('Kategori eklendi ✓');
+  }
+  saveCustomCategories(custom);
+  renderCategoryList();
+  rebuildCategoryFilters();
+  rebuildCategorySelect();
+  resetCategoryForm();
+}
+
+function deleteCategory(id){
+  if(DEFAULT_CATEGORIES.find(c=>c.id===id)){ showCatMsg('Varsayılan kategoriler silinemez.'); return; }
+  if(!confirm('Bu kategoriyi silmek istediğinize emin misiniz?')) return;
+  let custom = getCustomCategories();
+  custom = custom.filter(c=>c.id!==id);
+  saveCustomCategories(custom);
+  renderCategoryList();
+  rebuildCategoryFilters();
+  rebuildCategorySelect();
+  showNotif('Silindi','Kategori kaldırıldı.');
+}
+
+function editCategory(id){
+  const all = getStoredCategories();
+  const cat = all.find(c=>c.id===id);
+  if(!cat) return;
+  document.getElementById('cat-name').value = cat.name;
+  document.getElementById('cat-slug').value = cat.id;
+  document.getElementById('cat-edit-id').value = cat.id;
+  document.getElementById('cat-form-title').textContent = 'Kategoriyi Düzenle';
+}
+
+function resetCategoryForm(){
+  document.getElementById('cat-name').value='';
+  document.getElementById('cat-slug').value='';
+  document.getElementById('cat-edit-id').value='';
+  document.getElementById('cat-form-title').textContent='Yeni Kategori Ekle';
+}
+
+function showCatMsg(msg){
+  const el=document.getElementById('cat-save-msg');
+  if(!el) return;
+  el.textContent=msg; el.style.display='block';
+  setTimeout(()=>el.style.display='none',2500);
+}
+
+function renderCategoryList(){
+  const el = document.getElementById('cat-list');
+  if(!el) return;
+  const cats = getStoredCategories();
+  el.innerHTML = cats.map(c=>`
+    <div style="background:var(--bg3);border:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;justify-content:space-between">
+      <div>
+        <span style="font-size:13px;color:var(--cream)">${c.name}</span>
+        <span style="font-size:10px;color:var(--text3);margin-left:10px;letter-spacing:0.1em">${c.id}</span>
+        ${c.isDefault?'<span style="font-size:9px;color:var(--gold3);margin-left:8px;letter-spacing:0.1em;text-transform:uppercase">varsayılan</span>':''}
+      </div>
+      <div style="display:flex;gap:6px">
+        <button class="admin-btn-edit" onclick="editCategory('${c.id}')">Düzenle</button>
+        ${!c.isDefault?`<button class="admin-btn-del" onclick="deleteCategory('${c.id}')">Sil</button>`:''}
+      </div>
+    </div>`).join('');
+}
+
+function rebuildCategoryFilters(){
+  const cats = getStoredCategories();
+  const filterArea = document.querySelector('.filter-tabs');
+  if(!filterArea) return;
+  const activeCat = document.querySelector('.filter-tab.active')?.dataset.filter || 'all';
+  filterArea.innerHTML = `<button class="filter-tab${activeCat==='all'?' active':''}" onclick="filterProducts('all')" data-filter="all">${lang==='tr'?'Tümü':'All'}</button>` +
+    cats.map(c=>`<button class="filter-tab${activeCat===c.id?' active':''}" onclick="filterProducts('${c.id}')" data-filter="${c.id}">${c.name}</button>`).join('');
+}
+
+function rebuildCategorySelect(){
+  const cats = getStoredCategories();
+  const sel = document.getElementById('ap-category');
+  if(!sel) return;
+  const cur = sel.value;
+  sel.innerHTML = cats.map(c=>`<option value="${c.id}"${c.id===cur?' selected':''}>${c.name}</option>`).join('');
+}
+
+
+// ========== INIT ==========
+applyCategoriesToUI();
+rebuildCategoryFilters();
+rebuildCategorySelect();
+loadProductsFromStorage();
+renderAdminProductList();
 </script>
 </body>
 </html>
